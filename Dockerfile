@@ -1,5 +1,5 @@
 # Usa una imagen base de tu elección (por ejemplo, Ubuntu)
-FROM python:3.9-slim
+FROM ubuntu:20.04
 # Instalar las dependencias necesarias
 RUN apt-get update && \
     apt-get install -y wget curl unzip firefox && \
