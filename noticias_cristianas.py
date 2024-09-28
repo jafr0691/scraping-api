@@ -216,7 +216,7 @@ def scrape_testimonio_del_dia():
 def get_noticias_cristianas():
     try:
         noticias = scrape_noticias_cristianas()
-        return jsonify(noticias)
+        return jsonify(noticias), 200
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
     
@@ -225,7 +225,7 @@ def get_noticias_cristianas():
 def get_predica():
     try:
         predica = scrape_predica_del_dia()
-        return jsonify(predica)
+        return jsonify(predica), 200
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
     
@@ -233,7 +233,7 @@ def get_predica():
 def get_imagen():
     try:
         imagen = scrape_imagen_del_dia()
-        return jsonify(imagen)
+        return jsonify(imagen), 200
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
 
@@ -241,7 +241,7 @@ def get_imagen():
 def get_reflexion():
     try:
         reflexion = scrape_reflexion_del_dia()
-        return jsonify(reflexion)
+        return jsonify(reflexion), 200
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
 
@@ -249,7 +249,7 @@ def get_reflexion():
 def get_consejo():
     try:
         consejo = scrape_consejo_del_dia()
-        return jsonify(consejo)
+        return jsonify(consejo), 200
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
     
@@ -257,7 +257,7 @@ def get_consejo():
 def get_versiculo():
     try:
         versiculo = scrape_versiculo_del_dia()
-        return jsonify(versiculo)
+        return jsonify(versiculo), 200
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
     
@@ -265,7 +265,7 @@ def get_versiculo():
 def get_testimonio():
     try:
         testimonio = scrape_testimonio_del_dia()
-        return jsonify(testimonio)
+        return jsonify(testimonio), 200
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
     
