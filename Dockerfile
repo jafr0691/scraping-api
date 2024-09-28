@@ -2,7 +2,7 @@
 FROM python:3.9-slim
 
 # Establecer el directorio de trabajo
-WORKDIR /app
+WORKDIR /
 
 # Copiar los archivos de requisitos e instalarlos
 COPY requirements.txt .
