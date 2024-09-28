@@ -12,6 +12,6 @@ def client():
 
 def test_home(client):
     """Prueba que la ruta '/' responda con '¡Hola, Mundo!'."""
-    response = client.get('/')
+    response = client.get('/testimonio-del-dia')
     assert response.status_code == 200
     assert b"Hola, Mundo!".decode('utf-8') in response.data.decode('utf-8')
