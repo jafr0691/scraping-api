@@ -9,7 +9,7 @@ def client():
 
 def test_home(client):
     """Prueba que la ruta '/testimonio-del-dia' responda con '¡Hola, Mundo!'."""
-    response = client.get('/testimonio-del-dia')
+    response = client.get('0.0.0.0:8080/testimonio-del-dia')
     print(f"Response Status Code: {response.status_code}")
     print(f"Response Data: {response.data}")
     
