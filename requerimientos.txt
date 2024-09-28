@@ -2,4 +2,4 @@ selenium
 webdriver-manager
 Flask
 gunicorn
-pytest==8.3.3
+pytest
