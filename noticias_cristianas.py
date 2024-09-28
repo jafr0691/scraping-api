@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+import os
 from selenium import webdriver
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
@@ -268,6 +270,25 @@ def get_versiculo():
 def get_testimonio():
     try:
         testimonio = scrape_testimonio_del_dia()
+        return jsonify(testimonio)
+    except Exception as e:
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping al testimonio del dia: {str(e)}'}), 500
+
+@app.route('/', methods=['GET'])
+def get_testimonio():
+    try:
+        testimonio = {
+            'info':'Esta web es un servicio api sobre informacion Cristiana.',
+            'Urls':{
+                    os.path.join(os.path.dirname(__file__), '/noticias-cristiana'),
+                    os.path.join(os.path.dirname(__file__), '/predica-del-dia'),
+                    os.path.join(os.path.dirname(__file__), '/imagen-del-dia'),
+                    os.path.join(os.path.dirname(__file__), '/reflexion-del-dia'),
+                    os.path.join(os.path.dirname(__file__), '/testimonio-del-dia'),
+                    os.path.join(os.path.dirname(__file__), '/consejo-del-dia'),
+                    os.path.join(os.path.dirname(__file__), '/versiculo-del-dia')
+                }
+            }
         return jsonify(testimonio)
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping al testimonio del dia: {str(e)}'}), 500
