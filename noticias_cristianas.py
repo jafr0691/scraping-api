@@ -12,10 +12,10 @@ app = Flask(__name__)
 # Scraper para Noticias Cristianas
 def scrape_noticias_cristianas():
     url = 'https://www.bibliatodo.com/NoticiasCristianas/rss-noticias-online/'
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument('--headless')
-
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=firefox_options)
+    firefox_options = webdriver.FirefoxOptions()
+    firefox_options.set_preference('marionette', False)
+    
+    driver = webdriver.Firefox(options=firefox_options)
 
     try:
         driver.get(url)
@@ -51,10 +51,10 @@ def scrape_noticias_cristianas():
 # Scraper para Predica del Día
 def scrape_predica_del_dia():
     url = "https://www.bibliatodo.com/es"
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument('--headless')
-
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=firefox_options)
+    firefox_options = webdriver.FirefoxOptions()
+    firefox_options.add_argument("--headless")
+    
+    driver = webdriver.Firefox(options=firefox_options)
 
     try:
         driver.get(url)
