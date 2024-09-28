@@ -27,28 +27,32 @@ jobs:
         python -m pip install --upgrade pip
         pip install flake8 pytest selenium webdriver-manager flask gunicorn
 
-    - name: Install Firefox
+    - name: Install Firefox and Geckodriver
       run: |
         sudo apt-get update
         sudo apt-get install -y firefox
-
-    - name: Install Geckodriver
-      run: |
-        GECKODRIVER_VERSION=0.33.0
-        wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz
-        tar -xvzf geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.33.0/geckodriver-v0.33.0-linux64.tar.gz
+        tar -xvzf geckodriver-v0.33.0-linux64.tar.gz
         sudo mv geckodriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/geckodriver  # Asegúrate de que el binario tenga permisos de ejecución
+        sudo chmod +x /usr/local/bin/geckodriver
+
+    - name: Check Geckodriver Version
+      run: |
+        geckodriver --version
 
     - name: Lint with flake8
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-    - name: Test with pytest
-      run: |
-        pytest --tb=short  # Opción de resumen para mejorar la legibilidad de los errores
-
     - name: Start the Flask app
       run: |
         nohup gunicorn --bind 0.0.0.0:8080 noticias_cristianas:app &
+
+    - name: Wait for the server to start
+      run: |
+        sleep 10  # Esperar a que el servidor esté listo
+
+    - name: Test with pytest
+      run: |
+        pytest --tb=short

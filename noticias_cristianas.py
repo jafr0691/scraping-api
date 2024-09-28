@@ -42,7 +42,7 @@ def scrape_noticias_cristianas():
                 print(f"Error al procesar el elemento: {str(e)}")
                 continue
 
-        return noticias if noticias else {'error': 'No se encontraron noticias cristianas.'}
+        return noticias if noticias else {'error': 'Error al capturar los datos scraping de las noticias cristianas'}
     except Exception as e:
         return {'error': f'Error inesperado: {str(e)}'}
     finally:
@@ -70,7 +70,7 @@ def scrape_predica_del_dia():
             'pagina_url': href_url
         }
     except Exception as e:
-        return {'error': f'Error al capturar los datos de la predica del día: {str(e)}'}
+        return {'error': f'Error al capturar los datos scraping de la predica del día: {str(e)}'}
     finally:
         driver.quit()
 
@@ -96,7 +96,7 @@ def scrape_imagen_del_dia():
             'pagina_url': href_url
         }
     except Exception as e:
-        return {'error': f'Error al capturar los datos de la predica del día: {str(e)}'}
+        return {'error': f'Error al capturar los datos scraping de la imagen del día: {str(e)}'}
     finally:
         driver.quit()
 
@@ -122,7 +122,7 @@ def scrape_reflexion_del_dia():
             'pagina_url': href_url
         }
     except Exception as e:
-        return {'error': f'Error al capturar los datos de la predica del día: {str(e)}'}
+        return {'error': f'Error al capturar los datos scraping de reflexion del día: {str(e)}'}
     finally:
         driver.quit()
 
@@ -149,7 +149,7 @@ def scrape_consejo_del_dia():
             'pagina_url': href_url
         }
     except Exception as e:
-        return {'error': f'Error al capturar los datos de la predica del día: {str(e)}'}
+        return {'error': f'Error al capturar los datos scraping del consejo del día: {str(e)}'}
     finally:
         driver.quit()
 
@@ -173,7 +173,7 @@ def scrape_versiculo_del_dia():
             'imagen_url': img_url,
         }
     except Exception as e:
-        return {'error': f'Error al capturar los datos de la predica del día: {str(e)}'}
+        return {'error': f'Error al capturar los datos scraping del versiculo del día: {str(e)}'}
     finally:
         driver.quit()
 
@@ -208,7 +208,7 @@ def scrape_testimonio_del_dia():
             'pagina_url': href_url
         }
     except Exception as e:
-        return {'error': f'Error al capturar los datos de la Testimonio del día: {str(e)}'}
+        return {'error': f'Error al capturar los datos scraping del Testimonio del día: {str(e)}'}
     finally:
         driver.quit()
 
@@ -216,58 +216,58 @@ def scrape_testimonio_del_dia():
 def get_noticias_cristianas():
     try:
         noticias = scrape_noticias_cristianas()
-        return jsonify(noticias), 200
+        return jsonify(noticias)
     except Exception as e:
-        return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping a las noticias cristianas: {str(e)}'}), 500
     
 
 @app.route('/predica-del-dia', methods=['GET'])
 def get_predica():
     try:
         predica = scrape_predica_del_dia()
-        return jsonify(predica), 200
+        return jsonify(predica)
     except Exception as e:
-        return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping a la predica del dia: {str(e)}'}), 500
     
 @app.route('/imagen-del-dia', methods=['GET'])
 def get_imagen():
     try:
         imagen = scrape_imagen_del_dia()
-        return jsonify(imagen), 200
+        return jsonify(imagen)
     except Exception as e:
-        return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping a la imagen del dia: {str(e)}'}), 500
 
 @app.route('/reflexion-del-dia', methods=['GET'])
 def get_reflexion():
     try:
         reflexion = scrape_reflexion_del_dia()
-        return jsonify(reflexion), 200
+        return jsonify(reflexion)
     except Exception as e:
-        return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping a la reflexion del dia: {str(e)}'}), 500
 
 @app.route('/consejo-del-dia', methods=['GET'])
 def get_consejo():
     try:
         consejo = scrape_consejo_del_dia()
-        return jsonify(consejo), 200
+        return jsonify(consejo)
     except Exception as e:
-        return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping al consejo del dia: {str(e)}'}), 500
     
 @app.route('/versiculo-del-dia', methods=['GET'])
 def get_versiculo():
     try:
         versiculo = scrape_versiculo_del_dia()
-        return jsonify(versiculo), 200
+        return jsonify(versiculo)
     except Exception as e:
-        return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping al versiculo del dia: {str(e)}'}), 500
     
 @app.route('/testimonio-del-dia', methods=['GET'])
 def get_testimonio():
     try:
         testimonio = scrape_testimonio_del_dia()
-        return jsonify(testimonio), 200
+        return jsonify(testimonio)
     except Exception as e:
-        return jsonify({'error': f'Ocurrió un error al realizar el scraping: {str(e)}'}), 500
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping al testimonio del dia: {str(e)}'}), 500
     
 
 
