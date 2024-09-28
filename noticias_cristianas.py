@@ -77,10 +77,11 @@ def scrape_predica_del_dia():
 # Scraper para Imagen del Día
 def scrape_imagen_del_dia():
     url = "https://www.bibliatodo.com/es"
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument('--headless')
-
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=firefox_options)
+    options = webdriver.FirefoxOptions()
+    options.add_argument('--headless')  # Ejecutar en modo headless
+    options.add_argument('--disable-gpu')  # Deshabilitar GPU si es aplicable
+    
+    driver = webdriver.Firefox(options=options)
 
     try:
         driver.get(url)
