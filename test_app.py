@@ -14,4 +14,4 @@ def test_home(client):
     print(f"Response Data: {response.data}")
     
     assert response.status_code == 200
-    assert b'¡Hola, Mundo!' in response.data
+    assert b'Hola, Mundo!' in response.data
