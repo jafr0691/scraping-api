@@ -51,4 +51,4 @@ jobs:
 
     - name: Start the Flask app
       run: |
-        gunicorn --bind 0.0.0.0:8080 app:app
+        gunicorn --bind 0.0.0.0:8080 noticias_cristianas:app
