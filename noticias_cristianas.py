@@ -12,8 +12,10 @@ app = Flask(__name__)
 # Scraper para Noticias Cristianas
 def scrape_noticias_cristianas():
     url = 'https://www.bibliatodo.com/NoticiasCristianas/rss-noticias-online/'
-    firefox_options = webdriver.FirefoxOptions()
-    firefox_options.set_preference('marionette', False)
+    firefox_options = FirefoxOptions()
+    firefox_options.add_argument("--headless")  # Ejecuta Firefox en modo headless
+    firefox_options.add_argument("--disable-gpu")  # En caso de problemas con la aceleración gráfica
+    firefox_options.add_argument("--no-sandbox")  # Útil en entornos de contenedor como Docker
     
     driver = webdriver.Firefox(options=firefox_options)
 
