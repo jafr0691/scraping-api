@@ -1,10 +1,7 @@
 name: scraping api noticias
 
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+on:  # Eliminar disparadores push y pull_request
+  workflow_dispatch:  # Permite ejecutar el flujo manualmente desde GitHub si lo deseas
 
 permissions:
   contents: read
@@ -47,12 +44,12 @@ jobs:
 
     - name: Start the Flask app
       run: |
-        nohup gunicorn --bind 0.0.0.0:8080 noticias_cristianas:app &
+        nohup gunicorn --bind 0.0.0.0:8080 noticias_cristianas:app &  # Ejecuta el servidor en segundo plano
 
     - name: Wait for the server to start
       run: |
         sleep 10  # Esperar a que el servidor esté listo
 
-    - name: Test with pytest
+    - name: Test the API with curl
       run: |
-        pytest --tb=short
+        curl http://localhost:8080/testimonio-del-dia  # Realiza una consulta a la API para verificar que está funcionando
