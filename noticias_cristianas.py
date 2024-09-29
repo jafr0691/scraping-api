@@ -275,7 +275,7 @@ def get_testimonio():
         return jsonify({'error': f'Ocurrió un error al realizar el scraping al testimonio del dia: {str(e)}'}), 500
 
 @app.route('/', methods=['GET'])
-def get_testimonio():
+def get_info():
     try:
         testimonio = {
             'info':'Esta web es un servicio api sobre informacion Cristiana.',
