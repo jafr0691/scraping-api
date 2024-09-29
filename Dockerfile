@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y \
     xauth \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
-
+# Verificar la ubicación de firefox-esr
+RUN which firefox-esr
 # Instalar paquetes de Python necesarios
 RUN pip install --no-cache-dir selenium flask webdriver_manager
 
