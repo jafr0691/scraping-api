@@ -1,25 +1,32 @@
 # -*- coding: utf-8 -*-
 import os
 from selenium import webdriver
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.firefox import GeckoDriverManager
 from flask import Flask, jsonify
 
 app = Flask(__name__)
 
+# Use headless mode
+options = webdriver.FirefoxOptions()
+options.headless = True
+
+# Set the path of the Firefox binary
+firefox_binary_path = "/usr/bin/firefox-esr"
+options.binary_location = firefox_binary_path
+
+# Set the display port as an environment variable
+display_port = os.environ.get("DISPLAY_PORT", "99")
+display = f":{display_port}"
+os.environ["DISPLAY"] = display
+
+# Start the Xvfb server
+xvfb_cmd = f"Xvfb {display} -screen 0 1024x768x24 -nolisten tcp &"
+os.system(xvfb_cmd)
+
 # Scraper para Noticias Cristianas
 def scrape_noticias_cristianas():
     url = 'https://www.bibliatodo.com/NoticiasCristianas/rss-noticias-online/'
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument("--headless")  # Ejecuta Firefox en modo headless
-    firefox_options.add_argument("--disable-gpu")  # En caso de problemas con la aceleración gráfica
-    firefox_options.add_argument("--no-sandbox")  # Útil en entornos de contenedor como Docker
-    
-    driver = webdriver.Firefox(options=firefox_options)
+    # Start the Firefox driver
+    driver = webdriver.Firefox(options=options)
 
     try:
         driver.get(url)
@@ -55,10 +62,7 @@ def scrape_noticias_cristianas():
 # Scraper para Predica del Día
 def scrape_predica_del_dia():
     url = "https://www.bibliatodo.com/es"
-    firefox_options = webdriver.FirefoxOptions()
-    firefox_options.add_argument("--headless")
-    
-    driver = webdriver.Firefox(options=firefox_options)
+    driver = webdriver.Firefox(options=options)
 
     try:
         driver.get(url)
@@ -81,10 +85,6 @@ def scrape_predica_del_dia():
 # Scraper para Imagen del Día
 def scrape_imagen_del_dia():
     url = "https://www.bibliatodo.com/es"
-    options = webdriver.FirefoxOptions()
-    options.add_argument('--headless')  # Ejecutar en modo headless
-    options.add_argument('--disable-gpu')  # Deshabilitar GPU si es aplicable
-    
     driver = webdriver.Firefox(options=options)
 
     try:
@@ -108,10 +108,7 @@ def scrape_imagen_del_dia():
 # Scraper para Reflexion del Día
 def scrape_reflexion_del_dia():
     url = "https://www.bibliatodo.com/online/reflexiondeldia"
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument('--headless')
-
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=firefox_options)
+    driver = webdriver.Firefox(options=options)
 
     try:
         driver.get(url)
@@ -134,10 +131,7 @@ def scrape_reflexion_del_dia():
 # Scraper para Consejo del Día
 def scrape_consejo_del_dia():
     url = "https://www.bibliatodo.com/online/consejodeldia"
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument('--headless')
-
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=firefox_options)
+    driver = webdriver.Firefox(options=options)
 
     try:
         driver.get(url)
@@ -161,10 +155,7 @@ def scrape_consejo_del_dia():
 # Scraper para Versiculo del Día
 def scrape_versiculo_del_dia():
     url = "https://www.bibliatodo.com/es/online/versiculo-del-dia"
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument('--headless')
-
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=firefox_options)
+    driver = webdriver.Firefox(options=options)
 
     try:
         driver.get(url)
@@ -185,10 +176,7 @@ def scrape_versiculo_del_dia():
 # Scraper para Testimonio del Día
 def scrape_testimonio_del_dia():
     url = "https://www.bibliatodo.com/es"
-    firefox_options = FirefoxOptions()
-    firefox_options.add_argument('--headless')
-
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()), options=firefox_options)
+    driver = webdriver.Firefox(options=options)
 
     try:
         driver.get(url)
@@ -277,7 +265,7 @@ def get_testimonio():
 @app.route('/', methods=['GET'])
 def get_info():
     try:
-        testimonio = {
+        info = {
             'info':'Esta web es un servicio api sobre informacion Cristiana.',
             'Urls':{
                     os.path.join(os.path.dirname(__file__), '/noticias-cristiana'),
@@ -289,7 +277,7 @@ def get_info():
                     os.path.join(os.path.dirname(__file__), '/versiculo-del-dia')
                 }
             }
-        return jsonify(testimonio)
+        return jsonify(info)
     except Exception as e:
         return jsonify({'error': f'Ocurrió un error al realizar el scraping al testimonio del dia: {str(e)}'}), 500
     
