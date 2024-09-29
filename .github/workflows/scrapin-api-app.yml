@@ -19,8 +19,8 @@ jobs:
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOKER_USERNAME }}  # Usa secretos de GitHub para el nombre de usuario
-          password: ${{ secrets.DOKER_PASSWORD }}  # Usa secretos de GitHub para la contraseña
+          username: ${{ secrets.DOCKER_USERNAME }}  # Usa secretos de GitHub para el nombre de usuario
+          password: ${{ secrets.DOCKER_PASSWORD }}  # Usa secretos de GitHub para la contraseña
 
       # Paso 3: Construir y subir la imagen de Docker a Docker Hub
       - name: Build and Push Docker Image
