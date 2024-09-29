@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from flask import Flask, jsonify
 
 app = Flask(__name__)
@@ -266,15 +269,16 @@ def get_testimonio():
 def get_info():
     try:
         info = {
-            'info':'Esta web es un servicio api sobre informacion Cristiana.',
-            'Urls':{
-                    os.path.join(os.path.dirname(__file__), '/noticias-cristiana'),
-                    os.path.join(os.path.dirname(__file__), '/predica-del-dia'),
-                    os.path.join(os.path.dirname(__file__), '/imagen-del-dia'),
-                    os.path.join(os.path.dirname(__file__), '/reflexion-del-dia'),
-                    os.path.join(os.path.dirname(__file__), '/testimonio-del-dia'),
-                    os.path.join(os.path.dirname(__file__), '/consejo-del-dia'),
-                    os.path.join(os.path.dirname(__file__), '/versiculo-del-dia')
+                'info':{
+                    'Urls':{
+                            'Noticias cristianas':'/noticias-cristiana',
+                            'Predica del dia':'/predica-del-dia',
+                            'Imagen del dia':'/imagen-del-dia',
+                            'Reflexion del dia':'/reflexion-del-dia',
+                            'Testimonio del dia':'/testimonio-del-dia',
+                            'Consejo del dia':'/consejo-del-dia',
+                            'Versiculo del dia':'/versiculo-del-dia'
+                        }
                 }
             }
         return jsonify(info)
