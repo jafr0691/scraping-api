@@ -1,19 +1,21 @@
 FROM --platform=linux/amd64 python:3.9-slim-buster
 
-# Install Firefox and other dependencies
-RUN apt-get update && apt-get install -y firefox-esr xvfb
+# Actualizar e instalar Firefox, xvfb, xauth, y otras dependencias necesarias
+RUN apt-get update && apt-get install -y \
+    firefox-esr \
+    xvfb \
+    xauth \
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install Python packages
-RUN pip install selenium flask webdriver_manager
+# Instalar paquetes de Python necesarios
+RUN pip install --no-cache-dir selenium flask webdriver_manager
 
-
-# Install xvfb and xauth packages
-RUN apt-get install -y xvfb xauth
-
-# Copy Python script
+# Copiar el script de Python a la imagen
 COPY noticias_cristianas.py .
 
+# Configurar la variable de entorno DISPLAY
 ENV DISPLAY=:99
 
-# Run script with xvfb
-CMD ["xvfb-run", "--server-args='-screen 0 1024x768x24'", "--auto-servernum", "python", "noticias_cristianas.py"]
+# Comando para ejecutar el script con xvfb
+CMD ["xvfb-run", "--server-args=-screen 0 1024x768x24", "python", "noticias_cristianas.py"]
