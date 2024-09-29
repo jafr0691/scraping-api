@@ -34,7 +34,29 @@ def start_xvfb():
     except Exception as e:
         logging.error(f"Failed to start Xvfb: {str(e)}")
         raise
+# Scraper para testing
+def scrape_testing():
+    url = "https://www.bibliatodo.com/es"
+    # Start the Firefox driver
+    driver = webdriver.Firefox()
 
+    try:
+        driver.get(url)
+
+        img_element = driver.find_element(By.XPATH, '//div[contains(@class, "contenedor-titulos7")]//following-sibling::p//a//img')
+        link_element = driver.find_element(By.XPATH, '//div[contains(@class, "contenedor-titulos7")]//following-sibling::p//a')
+
+        img_url = img_element.get_attribute('src')
+        href_url = link_element.get_attribute('href')
+
+        return {
+            'imagen_url': img_url,
+            'pagina_url': href_url
+        }
+    except Exception as e:
+        return {'error': f'Error inesperado: {str(e)}'}
+    finally:
+        driver.quit()
 # Scraper para Noticias Cristianas
 def scrape_noticias_cristianas():
     url = 'https://www.bibliatodo.com/NoticiasCristianas/rss-noticias-online/'
@@ -218,6 +240,17 @@ def scrape_testimonio_del_dia():
     finally:
         driver.quit()
 
+
+
+        
+@app.route('/testing', methods=['GET'])
+def get_testing():
+    try:
+        testing = scrape_testing()
+        return jsonify(testing)
+    except Exception as e:
+        return jsonify({'error': f'Ocurrió un error al realizar el scraping testing: {str(e)}'}), 500
+
 @app.route('/noticias-cristianas', methods=['GET'])
 def get_noticias_cristianas():
     try:
@@ -287,7 +320,7 @@ def get_info():
                             'Reflexion del dia':'/reflexion-del-dia',
                             'Testimonio del dia':'/testimonio-del-dia',
                             'Consejo del dia':'/consejo-del-dia',
-                            'Versiculo del dia':'/versiculo-del-dia'
+                            'Versiculo del dia':'/versiculo-del-dia',
                         }
                 }
             }
