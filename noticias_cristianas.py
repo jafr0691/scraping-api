@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
+import subprocess
+import logging
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,6 +9,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from flask import Flask, jsonify
 
 app = Flask(__name__)
+
+# Configuración del logging
+logging.basicConfig(level=logging.INFO)
 
 # Use headless mode
 options = webdriver.FirefoxOptions()
@@ -22,8 +27,13 @@ display = f":{display_port}"
 os.environ["DISPLAY"] = display
 
 # Start the Xvfb server
-xvfb_cmd = f"Xvfb {display} -screen 0 1024x768x24 -nolisten tcp &"
-os.system(xvfb_cmd)
+def start_xvfb():
+    try:
+        subprocess.run(["Xvfb", display, "-screen", "0", "1024x768x24", "-nolisten", "tcp"], check=True)
+        logging.info("Xvfb started successfully.")
+    except Exception as e:
+        logging.error(f"Failed to start Xvfb: {str(e)}")
+        raise
 
 # Scraper para Noticias Cristianas
 def scrape_noticias_cristianas():
@@ -290,3 +300,5 @@ def get_info():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
