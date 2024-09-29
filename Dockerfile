@@ -1,25 +1,19 @@
-# Usa una imagen base de tu elección (por ejemplo, Ubuntu)
-FROM ubuntu:20.04
-# Instalar las dependencias necesarias
-RUN apt-get update && \
-    apt-get install -y wget curl unzip firefox && \
-    apt-get clean
+FROM --platform=linux/amd64 python:3.9-slim-buster
 
-# Definir la versión de geckodriver
-ENV GECKODRIVER_VERSION=0.35.0
+# Install Firefox and other dependencies
+RUN apt-get update && apt-get install -y firefox-esr xvfb
 
-# Descargar y instalar geckodriver
-RUN wget https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux-aarch64.tar.gz && \
-    tar -xzf geckodriver-v$GECKODRIVER_VERSION-linux-aarch64.tar.gz && \
-    mv geckodriver /usr/local/bin/ && \
-    chmod +x /usr/local/bin/geckodriver && \
-    rm geckodriver-v$GECKODRIVER_VERSION-linux-aarch64.tar.gz
-# Configura la variable de entorno DISPLAY
+# Install Python packages
+RUN pip install selenium flask webdriver_manager
+
+
+# Install xvfb and xauth packages
+RUN apt-get install -y xvfb xauth
+
+# Copy Python script
+COPY noticias_cristianas.py .
+
 ENV DISPLAY=:99
 
-# Agrega cualquier otro archivo necesario y configuración
-WORKDIR /
-COPY . .
-
-# Comando para ejecutar la aplicación
-CMD ["python", "noticias_cristianas.py"]
+# Run script with xvfb
+CMD ["xvfb-run", "--server-args='-screen 0 1024x768x24'", "--auto-servernum", "python", "noticias_cristianas.py"]
