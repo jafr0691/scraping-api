@@ -6,7 +6,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
@@ -311,16 +311,17 @@ def get_testimonio():
 @app.route('/', methods=['GET'])
 def get_info():
     try:
+        host = request.host
         info = {
                 'info':{
                     'Urls':{
-                            'Noticias cristianas':'/noticias-cristiana',
-                            'Predica del dia':'/predica-del-dia',
-                            'Imagen del dia':'/imagen-del-dia',
-                            'Reflexion del dia':'/reflexion-del-dia',
-                            'Testimonio del dia':'/testimonio-del-dia',
-                            'Consejo del dia':'/consejo-del-dia',
-                            'Versiculo del dia':'/versiculo-del-dia',
+                            'Noticias cristianas': f'{host}/noticias-cristiana',
+                            'Predica del dia': f'{host}/predica-del-dia',
+                            'Imagen del dia': f'{host}/imagen-del-dia',
+                            'Reflexion del dia': f'{host}/reflexion-del-dia',
+                            'Testimonio del dia': f'{host}/testimonio-del-dia',
+                            'Consejo del dia': f'{host}/consejo-del-dia',
+                            'Versiculo del dia': f'{host}/versiculo-del-dia'
                         }
                 }
             }
